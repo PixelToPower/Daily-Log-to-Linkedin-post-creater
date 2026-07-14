@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="style.css">
+    <title>Daily Log -> Linkedin Post</title>
+</head>
+
+<body>
+    <!-- heading -->
+    <h1>Linkedin Post Generater </h1>
+    <h3>Generate your linkedin post with the help of your daily log!</h3>
+    <br>
+
+    <!-- daily log conatiner -->
+
+    <div class="daily-log-container">
+        <h2>Daily Log Entry</h2>
+        <hr>
+        <br>
+        <h4>Today's Log Entry:</h4>
+        <textarea name="Enter daily log" id="daily-log" placeholder="Enter todays Log here" rows="10"
+            cols="100"></textarea>
+        <br>
+        <button class="savebtn" type="button">Save</button>
+        <br><hr>
+
+        <!-- history of logs stored -->
+
+        <div class="past-log-container">
+            <h5>Your Logs:</h5>
+            <span id="logs-store">
+                Individual log items get inserted here by JS 
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- linkedin post generater form -->
+
+
+    <div class="post-generater">
+        <h2>Generate Your Linked Post </h2>
+        <span class="button-container">
+            <button type="button" id="selectbtn">Select Daily Log</button>
+            <button type="button" id="generatebtn">Generate Post</button>
+        </span>
+
+        <div class="result">
+            <p id="statustext"></p>
+            <textarea id="generatedpost" readonly rows="15" cols="150"></textarea>
+            <button type="button" id="copybtn">Copy</button>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
