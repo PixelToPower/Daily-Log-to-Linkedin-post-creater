@@ -11,8 +11,8 @@ h1{
 }
 
 #h1transition{
-    text-shadow: 0 0 20px rgba(147, 196, 253, 0.566);
-    transition: text-shadow 0.1s ease-in-out;
+    text-shadow: 50px 10px 10px rgba(0, 0, 0, 0.566);
+    transition: text-shadow 0.01s ease-in-out;
 }
 
 h3{
@@ -84,11 +84,106 @@ h5{
 }
 
 #logs-store{
-    background-color: #0f172ac8;
+    overflow-y: auto;
+    background-color: #111213c8;
+    height: 200px;
+    width: 1200px;
     color: #F1F5F9;
     position: relative;
-    top: -60px;
-    font-size: 30px;
+    top: -90px;
+    left: 150px;
+    font-size: 20px;
+    text-align: left;
+    border-radius: 10px;
+}
+
+.log_item{
+    background-color: rgba(111, 111, 111, 0.3);
+    color:#f6f9f9;
+    border: 3px solid rgba(153, 153, 153, 0.4);
+    border-radius:10px;
+    padding: 12px;
+    width: 900px;
+    position:relative;
+    left: 70px;
+    word-wrap: break-word;
+}
+
+.day-adjust{
+    background-color: rgba(2, 2, 2, 0.633);
+    color: rgb(231, 230, 230);
+    position: relative;
+    width:90px;
+    height:34px;
+    left:-6px;
+    top:-10px;
+    text-align:center;
+    font-size:25px;
+    border-radius:9px;
+    border: 3px solid rgb(72, 72, 72)
+}
+
+.date-adjust{
+    background-color: rgba(2, 2, 2, 0.633);
+    color: #e7e6e6;
+    position:absolute;
+    width:200px;
+    height:34px;
+    left:700px;
+    top: 3px;
+    text-align:center;
+    font-size:25px;
+    border-radius:9px;
+    border: 3px solid rgb(72, 72, 72)
+
+}
+
+
+.text-collapsed{
+    background-color: rgba(0, 0, 0, 0.592);
+    max-width: 700px;
+    max-height:50px;
+    overflow:hidden;
+    display: block;
+    border-radius: 10px;
+    border:5px solid rgba(20, 20, 20, 0.762)
+    
+}
+
+.text-expanded{
+    max-height:none;
+}
+
+.toggle-btn{
+    font-size:18px;
+}
+
+.edit-btn{
+    background-color:  rgb(47, 46, 46);
+    color: #dedcdc;
+    font-size: 15px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    width: 40px;
+    top: 80px;
+    left: 861px;
+    border-radius: 7px;
+}
+
+.Delete-btn{
+    background-color:  rgb(191, 88, 88);
+    color: #fffdfd;
+    font-size: 15px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    width: 64px;
+    top: 45px;
+    left: 837px;
+    border-radius: 7px;
 }
 
 .post-generater{
@@ -118,25 +213,27 @@ h5{
 }
 
 #selectbtn{
-    background-color: #000000  ;
-    color: #ffffff;
+    background-color: #aceeeb  ;
+    color: #000000;
     font-size: 20px;
     position: relative;
     left: -460px ;
     bottom: -40px;
     width: 250px;
     height: 35px;
+    border-radius: 10px;
 }
 
 #generatebtn{
-    background-color: #000000  ;
-    color: #ffffff;
+    background-color: #aceeeb  ;
+    color: #000000;
     font-size: 20px;
     position: relative;
     left: -450px ;
     bottom: -40px;
     width: 150px;
-    height: 35px;  
+    height: 35px;
+    border-radius: 10px;  
 }
 
 #copybtn{
