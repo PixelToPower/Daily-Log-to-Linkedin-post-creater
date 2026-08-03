@@ -3,31 +3,48 @@ if (save_daily_log === null) {
     save_daily_log = []
 }
 
-
+let stored_logs = document.getElementById("logs-store")
 
 
 function show_logs() {
 
-
-    let stored_logs = document.getElementById("logs-store")
     let empty_old_data = document.getElementById("logs-store")
     empty_old_data.innerHTML = ""
     let save_daily_logl = save_daily_log.length
     console.log(save_daily_logl)
 
     for (let i = 0; i < save_daily_logl; i++) {
-        let entered_log = ("Entery :" + "  " + save_daily_log[i].daily_log_save + "        " + "    Date:" + save_daily_log[i].log_date + "<br><br>")
-
+        let entered_log = ("<div class='log_item'>" + "<div class='day-adjust'> DAY:"+[i + 1] + "</div>" + "<div class= 'text-collapsed'>" +save_daily_log[i].daily_log_save + "</div>" + "<div class='date-adjust' > DATE:"+ save_daily_log[i].log_date + "</div>" + "<span class='toggle-btn' data-index='"+ i +"'>...show more</span>" + "<button class = 'edit-btn' data-index = '" + i + "'  >edit</button>" + "<button class = 'Delete-btn' data-index = '" + i + "'  >Delete</button>" + "</div>" + "<br><br>" )
         stored_logs.innerHTML += entered_log
         console.log(stored_logs)
 
     }
 
-
-
-
 }
 
+stored_logs.addEventListener("click" , (event)=>{
+    if(event.target.classList.contains('Delete-btn')){
+        let index_no = Number(event.target.dataset.index)
+        save_daily_log.splice(index_no , 1)
+        localStorage.setItem("Logs",JSON.stringify(save_daily_log))
+        show_logs()
+        console.log(save_daily_log)
+    }
+
+    if(event.target.classList.contains('toggle-btn')){
+        let show_no = event.target.closest(".log_item")
+        console.log(show_no)
+        let textspan = show_no.querySelector(".text-collapsed , .text-expanded")
+        console.log(textspan)
+        textspan.classList.toggle("text-expanded")
+        if(textspan.classList.contains("text-expanded")){
+            event.target.textContent = "...show less"
+        }
+        else{
+            event.target.textContent = "...show more"
+        }
+    }
+})
 
 
 document.getElementById("savebtnn").addEventListener("click", (savebtnn) => {
@@ -85,8 +102,3 @@ document.getElementById("generatebtn").addEventListener("click", (generatebtn) =
     console.log(generatebtn, "clicked generatebtn")
 
 })
-
-
-
-
-
