@@ -12,3 +12,5 @@ Day-4 Added Javascript file and codded basic function.
 Day-5 Updated the JS file with array for storing daily log and improved functionability.
 
 Day-6 Today I worked on how to store the logs in local storage and how to show them on screen.
+
+Day-7 Today I completed the overall functioning of daily log stored (history of logs) and added new edit button.
