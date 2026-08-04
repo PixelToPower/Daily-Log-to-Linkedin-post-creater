@@ -1,4 +1,5 @@
 let save_daily_log = JSON.parse(localStorage.getItem("Logs"));
+let currentlyeditingindex = null
 if (save_daily_log === null) {
     save_daily_log = []
 }
@@ -44,6 +45,14 @@ stored_logs.addEventListener("click" , (event)=>{
             event.target.textContent = "...show more"
         }
     }
+
+    if(event.target.classList.contains('edit-btn')){
+        let edit_no = Number(event.target.dataset.index)
+        let edit_grab = save_daily_log[edit_no].daily_log_save
+        document.getElementById("daily-log").value = edit_grab
+        currentlyeditingindex = edit_no
+        console.log(edit_no)
+    }
 })
 
 
@@ -61,7 +70,13 @@ document.getElementById("savebtnn").addEventListener("click", (savebtnn) => {
     log_date = log_date.toLocaleDateString()
     console.log(log_date)
     console.log(daily_log_save)
-    save_daily_log.push({ daily_log_save, log_date })
+    if(currentlyeditingindex === null){
+        save_daily_log.push({ daily_log_save, log_date })
+    }
+    else{
+        save_daily_log[currentlyeditingindex].daily_log_save = daily_log_save
+    }
+    
     console.log(save_daily_log)
     localStorage.setItem("Logs", JSON.stringify(save_daily_log))
 
@@ -102,3 +117,6 @@ document.getElementById("generatebtn").addEventListener("click", (generatebtn) =
     console.log(generatebtn, "clicked generatebtn")
 
 })
+
+
+
