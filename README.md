@@ -40,8 +40,6 @@ Logs are stored in the browser's local storage. They are sent to OpenAI only whe
 
 GitHub Pages hosts the installable website; a Cloudflare Worker privately handles OpenAI requests. The OpenAI key is stored only as a Cloudflare Worker secret, never in the website or GitHub.
 
-The repository's GitHub Pages Actions publishing source is already enabled. The site URL is <https://pixeltopower.github.io/Daily-Log-to-Linkedin-post-creater/>.
-
 1. Rotate the existing OpenAI API key at https://platform.openai.com/api-keys before deploying. API calls are billed separately from ChatGPT subscriptions.
 2. Create a free Cloudflare account, then deploy the Worker from this repository:
 
@@ -54,7 +52,6 @@ The repository's GitHub Pages Actions publishing source is already enabled. The 
    Copy the `workers.dev` URL printed by deploy. Paste the new API key when prompted; keep it private. The Worker only accepts browser requests from this repository's GitHub Pages origin and rate-limits generation.
 3. In the GitHub repository, open **Settings → Secrets and variables → Actions → Variables**, add `API_BASE_URL`, and set it to the Worker URL.
 4. Open the **Actions** tab, select **Deploy GitHub Pages**, and click **Run workflow**. The workflow is skipped until `API_BASE_URL` is configured.
-5. Open <https://pixeltopower.github.io/Daily-Log-to-Linkedin-post-creater/> and use your browser's install option to add the PWA.
 
 The Pages workflow publishes only the front-end files. The app can be installed from its HTTPS URL using a supported browser. Daily logs stay in the user's browser; selected logs are sent to the Worker and OpenAI only when generating a post. Avoid entering sensitive information.
 
