@@ -36,15 +36,24 @@ Logs are stored in the browser's local storage. They are sent to OpenAI only whe
 - Responsive layout for desktop and mobile
 - Installable PWA shell with offline app assets
 
-## Deploy publicly
+## Deploy for free with GitHub Pages and Cloudflare Workers
 
-The included [render.yaml](./render.yaml) deploys the Node server on Render and keeps the OpenAI key as a server environment variable.
+GitHub Pages hosts the installable website; a Cloudflare Worker privately handles OpenAI requests. The OpenAI key is stored only as a Cloudflare Worker secret, never in the website or GitHub.
 
-1. Rotate the existing OpenAI API key at https://platform.openai.com/api-keys before sharing or committing a project.
-2. Push this repository to GitHub.
-3. In Render, create a **New Blueprint** and select the repository.
-4. Set `OPENAI_API_KEY` to the newly rotated key. Do not put it in `render.yaml`, source code, or repository secrets.
-5. Deploy and open the generated `*.on.render.com` URL.
-6. The server limits generation to 20 drafts per IP address per hour.
+1. Rotate the existing OpenAI API key at https://platform.openai.com/api-keys before deploying. API calls are billed separately from ChatGPT subscriptions.
+2. Deploy the Worker from this repository:
 
-The app is installable through supported browsers with HTTPS. Chrome or Edge may show **Install app** when the manifest and service worker requirements are met.
+   ```sh
+   npx wrangler login
+   npx wrangler deploy
+   npx wrangler secret put OPENAI_API_KEY
+   ```
+
+   Paste the new API key when prompted. Keep it private. The Worker configuration only allows requests from this repository's GitHub Pages origin and rate-limits generation requests.
+3. In the GitHub repository, open **Settings → Pages** and set the source to **GitHub Actions**.
+4. Open **Settings → Secrets and variables → Actions → Variables**, add `API_BASE_URL`, and set it to the deployed Worker URL (for example, `https://daily-log-linkedin-draft-api.<your-account>.workers.dev`).
+5. Push to `main` or run the **Deploy GitHub Pages** workflow from the **Actions** tab. Open the Pages URL shown in the workflow deployment.
+
+The Pages workflow publishes only the front-end files. The app can be installed from its HTTPS URL using a supported browser. Daily logs stay in the user's browser; selected logs are sent to the Worker and OpenAI only when generating a post. Avoid entering sensitive information.
+
+Cloudflare's basic rate-limit binding allows 10 requests per minute per IP, approximately per Cloudflare location; it is an abuse deterrent, not a strict global quota. Hosting may be available on free tiers, but OpenAI API usage can still incur charges.

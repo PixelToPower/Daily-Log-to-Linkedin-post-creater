@@ -1,5 +1,5 @@
 const CACHE_NAME = "daily-linkedin-draft-v1";
-const APP_FILES = ["/", "/index.html", "/style.css", "/script.js", "/manifest.webmanifest", "/icon.svg"];
+const APP_FILES = ["./", "./index.html", "./style.css", "./api-config.js", "./script.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", (event) => {
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_FILES)));
@@ -16,7 +16,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url);
-    if (event.request.method !== "GET" || url.pathname.startsWith("/api/")) return;
+    if (event.request.method !== "GET" || url.origin !== self.location.origin || url.pathname.startsWith("/api/")) return;
 
     event.respondWith(
         caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {

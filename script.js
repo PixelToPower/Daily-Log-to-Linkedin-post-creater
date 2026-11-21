@@ -18,10 +18,13 @@ const recentHashtagsPanel = document.getElementById("recent-hashtags-panel");
 const recentHashtagsList = document.getElementById("recent-hashtags");
 const customHashtagsPanel = document.getElementById("custom-hashtags-panel");
 const customHashtagsInput = document.getElementById("custom-hashtags");
+const apiBaseUrl = typeof window.APP_API_BASE_URL === "string"
+    ? window.APP_API_BASE_URL.replace(/\/+$/, "")
+    : "";
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js").catch((error) => {
+        navigator.serviceWorker.register("./sw.js").catch((error) => {
             console.error("Unable to register the app service worker:", error);
         });
     });
@@ -323,7 +326,7 @@ generateButton.addEventListener("click", async () => {
     draftStatus.textContent = "Sending your selected logs to OpenAI...";
 
     try {
-        const response = await fetch("/api/generate", {
+        const response = await fetch(`${apiBaseUrl}/api/generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -389,7 +392,7 @@ saveButton.disabled = !storageReady;
 
 async function checkAiServer() {
     try {
-        const response = await fetch("/api/status");
+        const response = await fetch(`${apiBaseUrl}/api/status`);
         const result = await response.json();
         if (!response.ok || typeof result.configured !== "boolean") {
             throw new Error("The AI server returned an unexpected status.");
@@ -400,7 +403,9 @@ async function checkAiServer() {
             aiStatus.textContent = `AI server available (${result.model}). The API key will be validated when you generate.`;
             aiStatus.dataset.state = "ready";
         } else {
-            aiStatus.textContent = "OpenAI API key not configured. Add it to .env and restart the app.";
+            aiStatus.textContent = apiBaseUrl
+                ? "AI generation is not configured for this service. Please contact its owner."
+                : "OpenAI API key not configured. Add it to .env and restart the app.";
             aiStatus.dataset.state = "error";
         }
     } catch (error) {
