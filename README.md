@@ -6,6 +6,9 @@ A lightweight browser app that turns your daily work notes into an editable Link
 
 [Open the app](https://pixeltopower.github.io/Daily-Log-to-Linkedin-post-creater/)
 
+Currently the demo is static because the github deploy only support static websites so the generate button won't work. 
+If you wanna try this out, here are the steps
+
 ## What it does
 
 - Keeps daily logs in your browser so you can build a history of your progress.
