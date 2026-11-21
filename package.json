@@ -1,0 +1,14 @@
+{
+  "name": "daily-log-linkedin-draft",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Turn daily work logs into LinkedIn drafts with OpenAI.",
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "start:production": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.6"
+  }
+}

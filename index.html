@@ -4,61 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="style.css">
-    <title>Daily Log -> Linkedin Post</title>
+    <meta name="theme-color" content="#0f172a">
+    <title>Daily Log to LinkedIn Draft</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body>
-    <!-- heading -->
-    <h1>Linkedin Post Generater </h1>
-    <h3>Generate your linkedin post with the help of your daily log!</h3>
-    <br>
+    <main class="app-shell">
+        <header class="page-header">
+            <p class="eyebrow">YOUR PROGRESS, READY TO SHARE</p>
+            <h1>Daily Log <span>→</span> LinkedIn Draft</h1>
+            <p class="page-intro">Capture what you work on each day, then turn a few days of progress into a post.</p>
+        </header>
 
-    <!-- daily log conatiner -->
+        <section class="panel" aria-labelledby="log-heading">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">01 / YOUR NOTES</p>
+                    <h2 id="log-heading">Daily logs</h2>
+                </div>
+                <span class="storage-note">Saved on this device</span>
+            </div>
 
-    <div class="daily-log-container">
-        <h2>Daily Log Entry</h2>
-        <hr>
-        <br>
-        <h4>Today's Log Entry:</h4>
-        <textarea name="Enter daily log" id="daily-log" placeholder="Enter todays Log here" rows="10"
-            cols="100"></textarea>
-        <br>
-        <button class="savebtn" type="button">Save</button>
-        <br><hr>
+            <form id="log-form">
+                <label for="daily-log" id="editor-label">What did you work on today?</label>
+                <textarea id="daily-log" name="daily-log" rows="5"
+                    placeholder="Write down what you built, learned, or figured out..." required></textarea>
+                <div class="form-actions">
+                    <p id="log-status" class="status" role="status" aria-live="polite"></p>
+                    <div class="button-row">
+                        <button class="button button-quiet" id="cancel-edit" type="button" hidden>Cancel edit</button>
+                        <button class="button button-primary" id="save-button" type="submit">Save log</button>
+                    </div>
+                </div>
+            </form>
 
-        <!-- history of logs stored -->
+            <div class="history-heading">
+                <h3>Your history</h3>
+                <span id="log-count" class="count-label">0 logs</span>
+            </div>
+            <div id="logs-store" class="log-list" aria-live="polite"></div>
+        </section>
 
-        <div class="past-log-container">
-            <h5>Your Logs:</h5>
-            <span id="logs-store">
-                Individual log items get inserted here by JS 
-            </span>
+        <section class="panel" aria-labelledby="draft-heading">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">02 / SHARE YOUR PROGRESS</p>
+                    <h2 id="draft-heading">Build a LinkedIn draft</h2>
+                </div>
+            </div>
+            <p class="section-description">Choose recent logs for an engaging 100–240 word LinkedIn post, excluding hashtags. Post length adapts to the selected timeframe and ends with three varied, relevant AI-suggested hashtags.</p>
+            <p class="privacy-note" id="ai-data-note">When you generate a draft, the selected logs are sent to OpenAI. Leave out confidential or sensitive information.</p>
+            <p id="ai-status" class="ai-status" role="status" aria-live="polite">Checking AI server...</p>
 
-        </div>
+            <fieldset class="hashtag-options">
+                <legend>Hashtags</legend>
+                <div class="hashtag-modes">
+                    <label class="mode-option">
+                        <input type="radio" name="hashtag-mode" value="ai" checked>
+                        Suggest relevant with AI
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="hashtag-mode" value="recent">
+                        Use recent hashtags
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="hashtag-mode" value="custom">
+                        Create your own
+                    </label>
+                </div>
+                <div id="ai-hashtags-panel" class="hashtag-panel">
+                    <p class="field-help">Default: AI suggests three relevant hashtags from your selected logs and adds them to the end of the post.</p>
+                </div>
+                <div id="recent-hashtags-panel" class="hashtag-panel" hidden>
+                    <p class="field-help">Choose from hashtags used in your previous drafts.</p>
+                    <div id="recent-hashtags" class="hashtag-list"></div>
+                </div>
+                <div id="custom-hashtags-panel" class="hashtag-panel" hidden>
+                    <label for="custom-hashtags">Your hashtags</label>
+                    <input id="custom-hashtags" type="text" placeholder="#BuildInPublic, #Learning"
+                        autocomplete="off">
+                    <p class="field-help">Enter at least one tag, separated by spaces or commas. Only the tags you enter here will be used, and they will appear at the end of the post.</p>
+                </div>
+            </fieldset>
 
-    </div>
-
-    <!-- linkedin post generater form -->
-
-
-    <div class="post-generater">
-        <h2>Generate Your Linked Post </h2>
-        <span class="button-container">
-            <button type="button" id="selectbtn">Select Daily Log</button>
-            <button type="button" id="generatebtn">Generate Post</button>
-        </span>
-
-        <div class="result">
-            <p id="statustext"></p>
-            <textarea id="generatedpost" readonly rows="15" cols="150"></textarea>
-            <button type="button" id="copybtn">Copy</button>
-
-        </div>
-
-    </div>
-
-
+            <div class="draft-controls">
+                <label for="days-count">Include recent logs</label>
+                <select id="days-count" disabled>
+                    <option value="1">1 day</option>
+                </select>
+                <button class="button button-primary" id="generatebtn" type="button" disabled>
+                    <span id="generate-spinner" class="button-spinner" aria-hidden="true" hidden></span>
+                    <span id="generate-label">Generate with AI</span>
+                </button>
+            </div>
+            <label for="generatedpost" class="draft-label">Your post draft</label>
+            <textarea id="generatedpost" rows="12"
+                placeholder="Your draft will appear here. You can edit it before copying." spellcheck="true"></textarea>
+            <div class="form-actions draft-actions">
+                <p id="draft-status" class="status" role="status" aria-live="polite">Your draft is created from your notes; review it before posting.</p>
+                <button class="button button-secondary" id="copybtn" type="button" disabled>Copy draft</button>
+            </div>
+        </section>
+        <footer>Your logs stay in this browser unless you generate a draft. Nothing is posted to LinkedIn automatically.</footer>
+    </main>
 </body>
 
 </html>

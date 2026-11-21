@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: daily-log-linkedin-draft
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:production
+    healthCheckPath: /api/status
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_VERSION
+        value: 22
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-6-luna
